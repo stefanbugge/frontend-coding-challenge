@@ -8,7 +8,7 @@ Fork this repository and create your own repository to get started.
 
 ## Challenge
 
-You will build a few new features on the app in the repository. The app currently shows a list of data points that each has two fields: text and id. It uses a fake api inspired by Apollo located in src/fakeApi.tsx. Right now the app only supports showing and removing of data points.
+You will build a few new features on the app in the repository. The app currently shows a list of data points that each has two fields: text and id. It uses a fake api inspired by Apollo located in src/fakeApollo.tsx. Right now the app only supports showing and removing of data points.
 
 ### Steps in challenge
 
