@@ -9,24 +9,20 @@ type Data = {
   id: string;
 };
 
-const FakeAPIContext = createContext<
-  [Data[], Dispatch<SetStateAction<Data[]>>]
->([] as unknown as [Data[], Dispatch<SetStateAction<Data[]>>]);
+const FakeAPIContext = createContext<[Data[], Dispatch<SetStateAction<Data[]>>]>(
+  [] as unknown as [Data[], Dispatch<SetStateAction<Data[]>>]
+);
 
 export const FakeAPIProvider = (props: {
   children: JSX.Element | JSX.Element[];
   initialState: Data[];
 }) => {
   const state = useState<Data[]>(props.initialState);
-  return (
-    <FakeAPIContext.Provider value={state}>
-      {props.children}
-    </FakeAPIContext.Provider>
-  );
+  return <FakeAPIContext.Provider value={state}>{props.children}</FakeAPIContext.Provider>;
 };
 
 const useFakeLoading = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const load = useCallback(async () => {
     setLoading(true);
     await new Promise<void>((resolve) => setTimeout(() => resolve(), 1500));
@@ -52,7 +48,7 @@ export function useCreateDataMutation(): [
   const { load, loading } = useFakeLoading();
   return [
     async ({ data }) => {
-      load().then(() => {
+      return load().then(() => {
         setData((prev) => [...prev, { ...data, id: uuid() }]);
       });
     },
@@ -67,8 +63,8 @@ export function useRemoveDataMutation(): [
   const [, setData] = useContext(FakeAPIContext);
   const { load, loading } = useFakeLoading();
   return [
-    ({ id }) => {
-      load().then(() => {
+    async ({ id }) => {
+      return load().then(() => {
         setData((prev) => prev.filter((x) => x.id !== id));
       });
     },
@@ -83,11 +79,9 @@ export function useUpdateDataMutation(): [
   const [, setData] = useContext(FakeAPIContext);
   const { load, loading } = useFakeLoading();
   return [
-    ({ data, id }) => {
-      load().then(() => {
-        setData((prev) =>
-          prev.map((x) => (x.id === id ? { ...x, ...data } : data))
-        );
+    async ({ data, id }) => {
+      return load().then(() => {
+        setData((prev) => prev.map((x) => (x.id === id ? { ...x, ...data } : x)));
       });
     },
     { loading },
