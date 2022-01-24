@@ -1,0 +1,12 @@
+{
+    "sort-imports.default-sort-style": "module",
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.formatOnSave": true,
+    "prettier.endOfLine": "lf",
+    "files.eol": "\n",
+}
