@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { ListSkeleton } from "./components/skeletons";
 import { useDataQuery, useRemoveDataMutation } from "./fakeApollo";
 import { FakeAPIProvider } from "./fakeApollo";
 import { v4 as uuid } from "uuid";
@@ -36,20 +37,22 @@ function Main() {
     <div className="flex items-center justify-center min-h-screen">
       <div>
         <h1 className="text-2xl font-bold">Data points</h1>
-        <ul>
-          {data?.map((x) => (
-            <li key={x.id} className="flex items-center space-x-2">
-              <span>{x.title}</span>
-              {x.description && <div>{x.description}</div>}
-              <button onClick={() => handleRemove(x.id)}>
-                <XIcon className="w-4 h-4" />
-              </button>
-            </li>
-          ))}
-        </ul>
         <button onClick={handleAdd} className="text-sm underline">
           Add new
         </button>
+        <ListSkeleton isLoaded={!loading}>
+          <ul>
+            {data?.map((x) => (
+              <li key={x.id} className="flex items-center space-x-2">
+                <span>{x.title}</span>
+                {x.description && <div>{x.description}</div>}
+                <button onClick={() => handleRemove(x.id)}>
+                  <XIcon className="w-4 h-4" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </ListSkeleton>
       </div>
     </div>
   );
