@@ -8,7 +8,7 @@ export default function App() {
   return (
     <FakeAPIProvider
       initialState={[
-        { title: "Hello world", id: uuid() },
+        { title: "Hello world", description: "Foo bar baz", id: uuid() },
         { title: "Some more data", id: uuid() },
       ]}
     >
@@ -40,6 +40,7 @@ function Main() {
           {data?.map((x) => (
             <li key={x.id} className="flex items-center space-x-2">
               <span>{x.title}</span>
+              {x.description && <div>{x.description}</div>}
               <button onClick={() => handleRemove(x.id)}>
                 <XIcon className="w-4 h-4" />
               </button>

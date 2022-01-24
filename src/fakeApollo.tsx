@@ -7,6 +7,7 @@ import { v4 as uuid } from "uuid";
 type Data = {
   title: string;
   id: string;
+  description?: string;
 };
 
 const FakeAPIContext = createContext<[Data[], Dispatch<SetStateAction<Data[]>>]>(
