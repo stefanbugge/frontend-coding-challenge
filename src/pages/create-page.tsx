@@ -23,11 +23,12 @@ export default function CreatePage() {
       <PageHeading>Create Data Point</PageHeading>
       <FormProvider onSubmit={handleSubmit}>
         <DataForm />
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-8">
           <Button
             type="button"
             variant="secondary"
             onClick={() => navigate("/")}
+            tabIndex={-1}
           >
             Back
           </Button>

@@ -4,13 +4,13 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { createContext } from "react";
 import { v4 as uuid } from "uuid";
 
+import { noop } from "./utils";
+
 type Data = {
   title: string;
   id: string;
   description?: string;
 };
-
-const noop = () => {};
 
 const FakeAPIContext = createContext<
   [Data[], Dispatch<SetStateAction<Data[]>>]

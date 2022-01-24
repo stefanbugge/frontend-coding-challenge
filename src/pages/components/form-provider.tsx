@@ -1,5 +1,7 @@
 import React from "react";
 
+import { noop } from "../../utils";
+
 export type FormState = {
   title: string;
   description?: string;
@@ -38,8 +40,6 @@ const defaultState: FormState = {
   title: "",
   description: "",
 };
-
-const noop = () => {};
 
 const FormStateContext = React.createContext<FormState>(defaultState);
 const FormDispatchContext =
