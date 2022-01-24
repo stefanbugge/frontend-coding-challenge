@@ -1,15 +1,20 @@
 import { XIcon } from "@heroicons/react/outline";
-import { useCallback } from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback } from "react";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 import { ListSkeleton } from "./components/skeletons";
+import { PageSpinner } from "./components/spinner";
 import { PageHeading } from "./components/typography/headings";
 import {
   FakeAPIProvider,
   useDataQuery,
   useRemoveDataMutation,
 } from "./fakeApollo";
+import { MainLayout } from "./layout";
+
+const CreatePage = React.lazy(() => import("./pages/create-page"));
+const EditPage = React.lazy(() => import("./pages/edit-page"));
 
 export default function App() {
   return (
@@ -19,7 +24,29 @@ export default function App() {
         { title: "Some more data", id: uuid() },
       ]}
     >
-      <Main />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Main />} />
+            <Route
+              path="new"
+              element={
+                <React.Suspense fallback={<PageSpinner />}>
+                  <CreatePage />
+                </React.Suspense>
+              }
+            />
+            <Route
+              path="edit/:id"
+              element={
+                <React.Suspense fallback={<PageSpinner />}>
+                  <EditPage />
+                </React.Suspense>
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </FakeAPIProvider>
   );
 }

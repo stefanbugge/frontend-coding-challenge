@@ -30,3 +30,9 @@ export function Spinner({
     </svg>
   );
 }
+
+export const PageSpinner = () => (
+  <div className="min-h-screen min-w-full absolute top-0 left-0 flex items-center justify-center">
+    <Spinner className="h-10 w-10 text-blue-400" />
+  </div>
+);
