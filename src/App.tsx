@@ -1,9 +1,15 @@
-import { useCallback } from "react";
-import { ListSkeleton } from "./components/skeletons";
-import { useDataQuery, useRemoveDataMutation } from "./fakeApollo";
-import { FakeAPIProvider } from "./fakeApollo";
-import { v4 as uuid } from "uuid";
 import { XIcon } from "@heroicons/react/outline";
+import { useCallback } from "react";
+import { Link } from "react-router-dom";
+import { v4 as uuid } from "uuid";
+
+import { ListSkeleton } from "./components/skeletons";
+import { PageHeading } from "./components/typography/headings";
+import {
+  FakeAPIProvider,
+  useDataQuery,
+  useRemoveDataMutation,
+} from "./fakeApollo";
 
 export default function App() {
   return (
@@ -26,7 +32,7 @@ function Main() {
     (id: string) => {
       remove({ id });
     },
-    [remove]
+    [remove],
   );
 
   const handleAdd = useCallback(() => {
@@ -34,12 +40,9 @@ function Main() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div>
       <div>
-        <h1 className="text-2xl font-bold">Data points</h1>
-        <button onClick={handleAdd} className="text-sm underline">
-          Add new
-        </button>
+        <PageHeading className="text-2xl font-bold">Data points</PageHeading>
         <ListSkeleton isLoaded={!loading}>
           <ul>
             {data?.map((x) => (
@@ -53,6 +56,7 @@ function Main() {
             ))}
           </ul>
         </ListSkeleton>
+        <Link to="/new">Add new</Link>
       </div>
     </div>
   );
