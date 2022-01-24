@@ -52,6 +52,7 @@ function Main() {
                 <button onClick={() => handleRemove(x.id)}>
                   <XIcon className="w-4 h-4" />
                 </button>
+                <Link to={`/edit/${x.id}`}>Edit</Link>
               </li>
             ))}
           </ul>

@@ -9,6 +9,7 @@ import { Spinner } from "./components/spinner";
 import { MainLayout } from "./layout";
 
 const CreatePage = React.lazy(() => import("./pages/create-page"));
+const EditPage = React.lazy(() => import("./pages/edit-page"));
 
 const PageSpinner = () => <Spinner className="h-8 w-8 text-blue-400" />;
 
@@ -23,6 +24,14 @@ ReactDOM.render(
             element={
               <React.Suspense fallback={<PageSpinner />}>
                 <CreatePage />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="edit/:id"
+            element={
+              <React.Suspense fallback={<PageSpinner />}>
+                <EditPage />
               </React.Suspense>
             }
           />
