@@ -10,16 +10,23 @@ type Data = {
   description?: string;
 };
 
-const FakeAPIContext = createContext<[Data[], Dispatch<SetStateAction<Data[]>>]>(
-  [] as unknown as [Data[], Dispatch<SetStateAction<Data[]>>]
-);
+const noop = () => {};
 
-export const FakeAPIProvider = (props: {
-  children: JSX.Element | JSX.Element[];
-  initialState: Data[];
-}) => {
-  const state = useState<Data[]>(props.initialState);
-  return <FakeAPIContext.Provider value={state}>{props.children}</FakeAPIContext.Provider>;
+const FakeAPIContext = createContext<
+  [Data[], Dispatch<SetStateAction<Data[]>>]
+>([[], noop]);
+
+export const FakeAPIProvider = (
+  props: React.PropsWithChildren<{
+    initialState: Data[];
+  }>,
+) => {
+  const state = useState(props.initialState);
+  return (
+    <FakeAPIContext.Provider value={state}>
+      {props.children}
+    </FakeAPIContext.Provider>
+  );
 };
 
 const useFakeLoading = () => {
@@ -43,7 +50,7 @@ export const useDataQuery = () => {
 
 export function useCreateDataMutation(): [
   (props: { data: Omit<Data, "id"> }) => any,
-  { loading: boolean }
+  { loading: boolean },
 ] {
   const [, setData] = useContext(FakeAPIContext);
   const { load, loading } = useFakeLoading();
@@ -59,7 +66,7 @@ export function useCreateDataMutation(): [
 
 export function useRemoveDataMutation(): [
   (props: { id: string }) => any,
-  { loading: boolean }
+  { loading: boolean },
 ] {
   const [, setData] = useContext(FakeAPIContext);
   const { load, loading } = useFakeLoading();
@@ -75,14 +82,16 @@ export function useRemoveDataMutation(): [
 
 export function useUpdateDataMutation(): [
   (props: { data: Data; id: string }) => any,
-  { loading: boolean }
+  { loading: boolean },
 ] {
   const [, setData] = useContext(FakeAPIContext);
   const { load, loading } = useFakeLoading();
   return [
     async ({ data, id }) => {
       return load().then(() => {
-        setData((prev) => prev.map((x) => (x.id === id ? { ...x, ...data } : x)));
+        setData((prev) =>
+          prev.map((x) => (x.id === id ? { ...x, ...data } : x)),
+        );
       });
     },
     { loading },
