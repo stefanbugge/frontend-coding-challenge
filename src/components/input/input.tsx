@@ -28,7 +28,7 @@ export function ClearableInput({
     props.value !== undefined && String(props.value).length > 0;
 
   return (
-    <div className="relative flex w-full flex-wrap items-stretch">
+    <div className="relative flex w-full">
       <Input ref={inputRef} {...props} />
       {showClearBtn && (
         <span className="h-full absolute bg-transparent flex items-center justify-center w-8 right-0 pr-3 py-3">

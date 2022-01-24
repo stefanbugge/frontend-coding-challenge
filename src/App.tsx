@@ -1,8 +1,22 @@
-import { XIcon } from "@heroicons/react/outline";
+import { TrashIcon } from "@heroicons/react/outline";
 import React, { useCallback } from "react";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Link,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
+import {
+  ListContainer,
+  ListItem,
+  ListItemContent,
+  ListItemSecondaryAction,
+  ListItemSubText,
+  ListItemTitle,
+} from "./components/list";
 import { ListSkeleton } from "./components/skeletons";
 import { PageSpinner } from "./components/spinner";
 import { PageHeading } from "./components/typography/headings";
@@ -52,6 +66,7 @@ export default function App() {
 }
 
 function Main() {
+  const navigate = useNavigate();
   const { data, loading } = useDataQuery();
 
   const [remove] = useRemoveDataMutation();
@@ -65,20 +80,36 @@ function Main() {
   return (
     <div>
       <div>
-        <PageHeading className="text-2xl font-bold">Data points</PageHeading>
+        <PageHeading>Data points</PageHeading>
         <ListSkeleton isLoaded={!loading}>
-          <ul>
+          <ListContainer>
             {data?.map((x) => (
-              <li key={x.id} className="flex items-center space-x-2">
-                <span>{x.title}</span>
-                {x.description && <div>{x.description}</div>}
-                <button onClick={() => handleRemove(x.id)}>
-                  <XIcon className="w-4 h-4" />
-                </button>
-                <Link to={`/edit/${x.id}`}>Edit</Link>
-              </li>
+              <ListItem
+                key={x.id}
+                button
+                onClick={() => navigate(`/edit/${x.id}`)}
+              >
+                <ListItemContent>
+                  <ListItemTitle>{x.title}</ListItemTitle>
+                  {x.description && (
+                    <ListItemSubText>{x.description}</ListItemSubText>
+                  )}
+                </ListItemContent>
+                <ListItemSecondaryAction>
+                  <button
+                    className="group p-1 rounded text-gray-600 bg-transparent hover:text-gray-600 hover:bg-red-100 active:bg-red-300"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRemove(x.id);
+                    }}
+                    tabIndex={-1}
+                  >
+                    <TrashIcon className="group-hover:text-red-500 w-4 h-4" />
+                  </button>
+                </ListItemSecondaryAction>
+              </ListItem>
             ))}
-          </ul>
+          </ListContainer>
         </ListSkeleton>
         <Link to="/new">Add new</Link>
       </div>
