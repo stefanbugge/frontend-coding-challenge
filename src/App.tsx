@@ -35,10 +35,6 @@ function Main() {
     [remove],
   );
 
-  const handleAdd = useCallback(() => {
-    alert("not implemeted");
-  }, []);
-
   return (
     <div>
       <div>
