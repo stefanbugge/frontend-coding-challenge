@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
+import { Button } from "./components/button";
 import {
   ListContainer,
   ListItem,
@@ -111,7 +112,11 @@ function Main() {
             ))}
           </ListContainer>
         </ListSkeleton>
-        <Link to="/new">Add new</Link>
+        <div className="mt-8 flex justify-center">
+          <Button variant="primary" onClick={() => navigate("/new")}>
+            New data point
+          </Button>
+        </div>
       </div>
     </div>
   );
