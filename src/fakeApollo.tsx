@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { useEffect } from "react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { createContext } from "react";
@@ -29,8 +29,19 @@ export const FakeAPIProvider = (
   );
 };
 
-const useFakeLoading = () => {
-  const [loading, setLoading] = useState(false);
+export function withFakeAPIProvider<T>(
+  WrappedComponent: React.ComponentType<T>,
+  initialState: Data[],
+) {
+  return (props: T) => (
+    <FakeAPIProvider initialState={initialState}>
+      <WrappedComponent {...props} />
+    </FakeAPIProvider>
+  );
+}
+
+const useFakeLoading = (initialValue?: boolean) => {
+  const [loading, setLoading] = useState(initialValue ?? false);
   const load = useCallback(async () => {
     setLoading(true);
     await new Promise<void>((resolve) => setTimeout(() => resolve(), 1500));
@@ -41,7 +52,7 @@ const useFakeLoading = () => {
 
 export const useDataQuery = () => {
   const [data] = useContext(FakeAPIContext);
-  const { load, loading } = useFakeLoading();
+  const { load, loading } = useFakeLoading(true);
   useEffect(() => {
     load();
   }, [load]);
@@ -55,11 +66,14 @@ export function useCreateDataMutation(): [
   const [, setData] = useContext(FakeAPIContext);
   const { load, loading } = useFakeLoading();
   return [
-    async ({ data }) => {
-      return load().then(() => {
-        setData((prev) => [...prev, { ...data, id: uuid() }]);
-      });
-    },
+    useCallback(
+      async ({ data }) => {
+        return load().then(() => {
+          setData((prev) => [...prev, { ...data, id: uuid() }]);
+        });
+      },
+      [load, setData],
+    ),
     { loading },
   ];
 }
@@ -71,11 +85,14 @@ export function useRemoveDataMutation(): [
   const [, setData] = useContext(FakeAPIContext);
   const { load, loading } = useFakeLoading();
   return [
-    async ({ id }) => {
-      return load().then(() => {
-        setData((prev) => prev.filter((x) => x.id !== id));
-      });
-    },
+    useCallback(
+      async ({ id }) => {
+        return load().then(() => {
+          setData((prev) => prev.filter((x) => x.id !== id));
+        });
+      },
+      [load, setData],
+    ),
     { loading },
   ];
 }
@@ -87,13 +104,16 @@ export function useUpdateDataMutation(): [
   const [, setData] = useContext(FakeAPIContext);
   const { load, loading } = useFakeLoading();
   return [
-    async ({ data, id }) => {
-      return load().then(() => {
-        setData((prev) =>
-          prev.map((x) => (x.id === id ? { ...x, ...data } : x)),
-        );
-      });
-    },
+    useCallback(
+      async ({ data, id }) => {
+        return load().then(() => {
+          setData((prev) =>
+            prev.map((x) => (x.id === id ? { ...x, ...data } : x)),
+          );
+        });
+      },
+      [load, setData],
+    ),
     { loading },
   ];
 }
