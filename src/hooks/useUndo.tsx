@@ -22,12 +22,12 @@ export const useUndoList = () => React.useContext(UndoListContext);
 export const useUndoActions = () => React.useContext(UndoActionsContext);
 
 type UndoProviderProps<T> = {
-  ttl: number;
+  ttl?: number;
   onUndo: (item: T) => void;
 };
 
 export function UndoProvider<T>({
-  ttl,
+  ttl = 10_000,
   onUndo,
   children,
 }: React.PropsWithChildren<UndoProviderProps<T>>) {
