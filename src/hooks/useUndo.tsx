@@ -9,11 +9,13 @@ type UndoItem<T = unknown> = {
   data: T;
 };
 
-const UndoListContext = React.createContext<UndoItem[]>([]);
-const UndoActionsContext = React.createContext<{
+export type ActionsContext = {
   addUndoItem: (item: any) => void;
   undo: () => void;
-}>({
+};
+
+const UndoListContext = React.createContext<UndoItem[]>([]);
+const UndoActionsContext = React.createContext<ActionsContext>({
   addUndoItem: noop,
   undo: noop,
 });
