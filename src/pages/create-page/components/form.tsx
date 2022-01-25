@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ClearableInput } from "../../components/input";
+import { ClearableInput } from "../../../components/input";
 import {
   FormActionKind,
   useFormDispatchContext,

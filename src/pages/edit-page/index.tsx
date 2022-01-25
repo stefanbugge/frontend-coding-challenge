@@ -1,18 +1,21 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Button } from "../components/button";
-import { PageSpinner } from "../components/spinner";
-import { PageHeading } from "../components/typography/headings";
+import { Button } from "../../components/button";
+import { PageSpinner } from "../../components/spinner";
+import { PageHeading } from "../../components/typography/headings";
 import {
   Data,
   useDataQuery,
   useRemoveDataMutation,
   useUpdateDataMutation,
-} from "../fakeApollo";
-import { useUndoActions } from "../hooks/useUndo";
-import DataForm from "./components/form";
-import { FormProvider, FormState } from "./components/form-provider";
+} from "../../fakeApollo";
+import { useUndoActions } from "../../hooks/useUndo";
+import DataForm from "../create-page/components/form";
+import {
+  FormProvider,
+  FormState,
+} from "../create-page/components/form-provider";
 
 /**
  * Resolve data by id before rendering the page
