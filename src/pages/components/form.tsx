@@ -35,6 +35,7 @@ export default function DataForm() {
           onChange={(e) => handleUpdateTitle(e.target.value)}
           onClearInput={() => handleUpdateTitle("")}
           required
+          minLength={3}
           autoFocus
         />
       </div>

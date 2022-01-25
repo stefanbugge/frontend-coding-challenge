@@ -16,7 +16,7 @@ export const Input = React.forwardRef<
 
 export interface ClearableInputProps
   extends React.ComponentProps<typeof Input> {
-  onClearInput: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClearInput: (e: React.MouseEvent) => void;
 }
 
 export function ClearableInput({
@@ -32,7 +32,8 @@ export function ClearableInput({
       <Input ref={inputRef} {...props} />
       {showClearBtn && (
         <span className="h-full absolute bg-transparent flex items-center justify-center w-8 right-0 pr-3 py-3">
-          <button
+          <div
+            role="button"
             className="p-1 rounded text-gray-600 bg-transparent hover:text-gray-600 hover:bg-gray-200 active:bg-gray-400"
             onClick={(e) => {
               e.preventDefault();
@@ -42,7 +43,7 @@ export function ClearableInput({
             tabIndex={-1}
           >
             <XIcon className="w-4 h-4" />
-          </button>
+          </div>
         </span>
       )}
     </div>
