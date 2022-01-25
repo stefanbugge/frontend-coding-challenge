@@ -43,15 +43,16 @@ export function UndoProvider<T>({
    * Calculate how many milliseconds from now do we need to purge an
    * entry from the undo list.
    */
+
+  // Select the oldest item from the undo list, i.e. the first entry
+  const oldestItem = undoList[0];
   const delay = React.useMemo(() => {
-    if (undoList.length === 0) return null;
+    if (oldestItem === undefined) return null;
     const now = Date.now();
-    // Select the oldest item from the undo list, i.e. the first entry
-    const oldestItem = undoList[0];
     // Calculate the timeout seconds from now based on the time-to-live option
     const diff = now - oldestItem.timestamp;
     return Math.max(0, ttl - diff);
-  }, [undoList, ttl]);
+  }, [oldestItem, ttl]);
 
   useTimeout(() => {
     /**
