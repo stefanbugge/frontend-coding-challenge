@@ -7,7 +7,7 @@ import { useFocusItemContext } from "./contexts/focus-item-context";
 import { Data, useCreateDataMutation, withFakeAPIProvider } from "./fakeApollo";
 import { UndoProvider } from "./hooks/useUndo";
 import { MainLayout } from "./layout";
-import MainPage from "./pages/main-page/main-page";
+import ListPage from "./pages/list-page";
 
 const CreatePage = React.lazy(() => import("./pages/create-page"));
 const EditPage = React.lazy(() => import("./pages/edit-page"));
@@ -38,7 +38,7 @@ export const App = withFakeAPIProvider(() => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            <Route index element={<MainPage />} />
+            <Route index element={<ListPage />} />
             <Route
               path="new"
               element={

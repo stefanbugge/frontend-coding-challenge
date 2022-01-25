@@ -12,7 +12,7 @@ import usePagination from "../../hooks/usePagination";
 import DataListItem from "./components/data-list-item";
 import UndoButton from "./components/undo-button";
 
-export default function MainPage() {
+export default function ListPage() {
   const { focusItemId, setFocusItemId } = useFocusItemContext();
   const navigate = useNavigate();
   const { data, loading } = useDataQuery();
@@ -34,7 +34,7 @@ export default function MainPage() {
   const hasData = data && data.length > 0;
 
   return (
-    <div>
+    <main>
       <PageHeading>Data points</PageHeading>
       <ListSkeleton isLoaded={!loading}>
         <ListContainer>
@@ -66,6 +66,6 @@ export default function MainPage() {
         </Button>
         <UndoButton />
       </div>
-    </div>
+    </main>
   );
 }
