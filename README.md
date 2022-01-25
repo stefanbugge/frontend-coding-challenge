@@ -4,6 +4,11 @@
 
 ## How to run
 
+**Install dependencies**
+```sh
+$ npm install
+```
+
 **Run app**
 ```sh
 $ npm run start
