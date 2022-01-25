@@ -1,3 +1,30 @@
+# Stefans solution to Weld's frontend coding challenge
+
+![Screenshot](docs/screenshot.png)
+
+## How to run
+
+**Run app**
+```sh
+$ npm run start
+```
+
+**Run tests**
+```sh
+$ npm run test
+```
+
+
+---
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
 # Welcome to Weld's frontend coding-challenge
 
 ## Introduction
