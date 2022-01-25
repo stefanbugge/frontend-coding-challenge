@@ -44,7 +44,7 @@ const useFakeLoading = (initialValue?: boolean) => {
   const [loading, setLoading] = useState(initialValue ?? false);
   const load = useCallback(async () => {
     setLoading(true);
-    await new Promise<void>((resolve) => setTimeout(() => resolve(), 1500));
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
     setLoading(false);
   }, []);
   return { load, loading };
