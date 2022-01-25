@@ -6,7 +6,7 @@ import { v4 as uuid } from "uuid";
 
 import { noop } from "./utils";
 
-type Data = {
+export type Data = {
   title: string;
   id: string;
   description?: string;

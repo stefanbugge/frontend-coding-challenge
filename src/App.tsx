@@ -1,12 +1,6 @@
 import { TrashIcon } from "@heroicons/react/outline";
-import React, { useCallback } from "react";
-import {
-  BrowserRouter,
-  Link,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 import { Button } from "./components/button";
@@ -22,10 +16,13 @@ import { ListSkeleton } from "./components/skeletons";
 import { PageSpinner } from "./components/spinner";
 import { PageHeading } from "./components/typography/headings";
 import {
+  Data,
   FakeAPIProvider,
+  useCreateDataMutation,
   useDataQuery,
   useRemoveDataMutation,
 } from "./fakeApollo";
+import { useUndoDeleteDecorator } from "./hooks/useUndoDeleteDecorator";
 import { MainLayout } from "./layout";
 
 const CreatePage = React.lazy(() => import("./pages/create-page"));
@@ -70,13 +67,18 @@ function Main() {
   const navigate = useNavigate();
   const { data, loading } = useDataQuery();
 
-  const [remove] = useRemoveDataMutation();
-  const handleRemove = useCallback(
-    (id: string) => {
-      remove({ id });
-    },
-    [remove],
-  );
+  const [removeData] = useRemoveDataMutation();
+  const [createData] = useCreateDataMutation();
+
+  const {
+    deleteItem,
+    undoDeleteItem,
+    size: undoListSize,
+  } = useUndoDeleteDecorator<Data>({
+    ttl: 10_000,
+    onDelete: (item) => removeData({ id: item.id }),
+    onUndo: (item) => createData({ data: item }),
+  });
 
   return (
     <div>
@@ -84,6 +86,11 @@ function Main() {
         <PageHeading>Data points</PageHeading>
         <ListSkeleton isLoaded={!loading}>
           <ListContainer>
+            {(!data || data.length === 0) && (
+              <div className="text-xl text-gray-300 text-center p-4">
+                List is empty
+              </div>
+            )}
             {data?.map((x) => (
               <ListItem
                 key={x.id}
@@ -101,7 +108,7 @@ function Main() {
                     className="group p-1 rounded text-gray-600 bg-transparent hover:text-gray-600 hover:bg-red-100 active:bg-red-300"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleRemove(x.id);
+                      deleteItem(x);
                     }}
                     tabIndex={-1}
                   >
@@ -112,10 +119,15 @@ function Main() {
             ))}
           </ListContainer>
         </ListSkeleton>
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex justify-between">
           <Button variant="primary" onClick={() => navigate("/new")}>
             New data point
           </Button>
+          {undoListSize > 0 && (
+            <Button onClick={() => undoDeleteItem()}>
+              Undo ({undoListSize})
+            </Button>
+          )}
         </div>
       </div>
     </div>
