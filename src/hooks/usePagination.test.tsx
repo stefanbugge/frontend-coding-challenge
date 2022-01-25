@@ -22,10 +22,22 @@ describe("usePagination", () => {
     const { result } = renderHook(() =>
       usePagination(["foo", "bar", "baz"], 2),
     );
+    expect(result.current.page).toEqual(1);
     act(() => {
       result.current.setPage(2);
     });
     expect(result.current.slicedData).toEqual(["baz"]);
+  });
+
+  it("should set page by index", () => {
+    const { result } = renderHook(() =>
+      usePagination(["foo", "bar", "baz"], 2),
+    );
+    expect(result.current.page).toEqual(1);
+    act(() => {
+      result.current.setPageByIndex(3);
+    });
+    expect(result.current.page).toEqual(2);
   });
 
   it("should not be possible to set an out of bounds page", () => {

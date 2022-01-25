@@ -60,7 +60,7 @@ export const useDataQuery = () => {
 };
 
 export function useCreateDataMutation(): [
-  (props: { data: Omit<Data, "id"> }) => any,
+  (props: { data: Omit<Data, "id"> }) => Promise<Data>,
   { loading: boolean },
 ] {
   const [, setData] = useContext(FakeAPIContext);
@@ -69,7 +69,9 @@ export function useCreateDataMutation(): [
     useCallback(
       async ({ data }) => {
         return load().then(() => {
-          setData((prev) => [...prev, { ...data, id: uuid() }]);
+          const newItem = { ...data, id: uuid() };
+          setData((prev) => [...prev, newItem]);
+          return newItem;
         });
       },
       [load, setData],

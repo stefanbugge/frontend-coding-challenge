@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 import { PageSpinner } from "./components/spinner";
+import { useFocusItemContext } from "./contexts/focus-item-context";
 import { Data, useCreateDataMutation, withFakeAPIProvider } from "./fakeApollo";
 import { UndoProvider } from "./hooks/useUndo";
 import { MainLayout } from "./layout";
@@ -23,9 +24,14 @@ const initialData = [
 
 export const App = withFakeAPIProvider(() => {
   const [createData] = useCreateDataMutation();
-
-  const handleUndo = (item: Data) => {
-    createData({ data: item });
+  const { setFocusItemId: setFocusItem } = useFocusItemContext();
+  const handleUndo = async (item: Data) => {
+    try {
+      const result = await createData({ data: item });
+      setFocusItem(result.id);
+    } catch {
+      // nevermind
+    }
   };
   return (
     <UndoProvider<Data> onUndo={handleUndo}>
