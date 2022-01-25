@@ -59,6 +59,19 @@ export const useDataQuery = () => {
   return { data: loading ? null : data, loading };
 };
 
+export const useSingleDataQuery = (id: string | undefined) => {
+  const [list] = useContext(FakeAPIContext);
+  const data = React.useMemo(() => {
+    return list.find((x) => x.id === id);
+  }, [list, id]);
+
+  const { load, loading } = useFakeLoading(true);
+  useEffect(() => {
+    load();
+  }, [load]);
+  return { data: loading ? null : data, loading };
+};
+
 export function useCreateDataMutation(): [
   (props: { data: Omit<Data, "id"> }) => Promise<Data>,
   { loading: boolean },

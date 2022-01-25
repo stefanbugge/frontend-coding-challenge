@@ -6,8 +6,8 @@ import { PageSpinner } from "../../components/spinner";
 import { PageHeading } from "../../components/typography/headings";
 import {
   Data,
-  useDataQuery,
   useRemoveDataMutation,
+  useSingleDataQuery,
   useUpdateDataMutation,
 } from "../../fakeApollo";
 import { useUndoActions } from "../../hooks/useUndo";
@@ -21,24 +21,8 @@ import {
  * Resolve data by id before rendering the page
  */
 export default function EditPageWrapper() {
-  const [data, setData] = React.useState<Data>();
   let { id } = useParams();
-  const { data: dataList } = useDataQuery();
-
-  React.useEffect(() => {
-    if (data !== undefined) {
-      // data already resolved
-      return;
-    }
-    if (!id) {
-      return;
-    }
-    const result = (dataList ?? []).find((x) => x.id === id);
-    if (result) {
-      setData(result);
-    }
-  }, [id, data, dataList]);
-
+  const { data } = useSingleDataQuery(id);
   if (!data) return <PageSpinner />;
   return <EditPage data={data} />;
 }
