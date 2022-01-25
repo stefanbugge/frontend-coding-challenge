@@ -32,7 +32,7 @@ export function Spinner({
 }
 
 export const PageSpinner = () => (
-  <div className="min-h-screen min-w-full absolute top-0 left-0 flex items-center justify-center">
+  <div className="min-h-screen min-w-full fixed top-0 left-0 flex items-center justify-center opacity-80">
     <Spinner className="h-10 w-10 text-blue-400" />
   </div>
 );
