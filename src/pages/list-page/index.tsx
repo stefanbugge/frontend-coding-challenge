@@ -19,12 +19,14 @@ export default function ListPage() {
   const { slicedData, totalPages, page, setPage, setPageByIndex } =
     usePagination(data, 3);
 
+  // Resolve focused item
   const focusItemIndex = React.useMemo(() => {
     if (!data || !focusItemId) return undefined;
     const itemIndex = data.findIndex((x) => x.id === focusItemId);
     return itemIndex >= 0 ? itemIndex : undefined;
   }, [data, focusItemId]);
 
+  // Attempt to set page based on index of focused item
   React.useEffect(() => {
     if (focusItemIndex !== undefined) {
       setPageByIndex(focusItemIndex);
