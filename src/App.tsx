@@ -14,6 +14,11 @@ const EditPage = React.lazy(() => import("./pages/edit-page"));
 const initialData = [
   { title: "Hello world", description: "Foo bar baz", id: uuid() },
   { title: "Some more data", id: uuid() },
+  { title: "Funky Doodle", description: "Not so much", id: uuid() },
+  { title: "Foobar ", id: uuid() },
+  { title: "All the things", description: "Floop doop loop", id: uuid() },
+  { title: "Guten heute leute", description: "Alles gut!", id: uuid() },
+  { title: "Hola Mundo", description: "cómo estás", id: uuid() },
 ];
 
 export const App = withFakeAPIProvider(() => {
